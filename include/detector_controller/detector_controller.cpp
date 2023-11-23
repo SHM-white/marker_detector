@@ -4,7 +4,8 @@
 
 #include "detector_controller.h"
 
-DetectorController::DetectorController() : Node("detector_controller") {
+DetectorController::DetectorController() : Node("detector_controller"),
+                                           detectorList(static_cast<unsigned long>(Mode::NUM)) {
     callbackGroup = create_callback_group(rclcpp::CallbackGroupType::Reentrant);
     rclcpp::SubscriptionOptions subOpt = rclcpp::SubscriptionOptions();
     subOpt.callback_group = callbackGroup;
@@ -15,6 +16,13 @@ DetectorController::DetectorController() : Node("detector_controller") {
             std::bind(&DetectorController::imageCallback, this, std::placeholders::_1),
             subOpt
     );
+    modeSubscription = create_subscription<robot_serial::msg::Mode>(
+            "/robot/mode",
+            1,
+            std::bind(&DetectorController::modeCallback, this, std::placeholders::_1)
+    );
+    declare_parameter("/detector/buff_detector/model_path");
+    detectorList[static_cast<unsigned long>(Mode::BUFF)] = std::make_shared<BuffDetector>();
 }
 
 void DetectorController::imageCallback(const sensor_msgs::msg::Image::SharedPtr rosImage) {

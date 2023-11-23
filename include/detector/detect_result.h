@@ -15,6 +15,7 @@
 struct DetectResult {
     Eigen::Vector3d point;
     Eigen::Quaterniond quat;
+    Eigen::Vector3d rPoint;
     bool selected;
     bool big;
     int id{0};
@@ -23,9 +24,11 @@ struct DetectResult {
     marker_detector::msg::DetectResult toRosMsg();
 };
 
-struct DetectResults {
+using DetectResults = std::vector<DetectResult>;
+
+struct DetectResultsStamped {
     rclcpp::Time time;
-    std::vector<DetectResult> results;
+    DetectResults results;
 
     marker_detector::msg::DetectResults toRosMsg();
 };

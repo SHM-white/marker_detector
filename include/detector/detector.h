@@ -25,7 +25,7 @@ protected:
 public:
     explicit Detector(const std::string& _name);
 
-    DetectResults detect(const cv::Mat& image);
+    DetectResultsStamped detect(const cv::Mat& image);
 
     virtual void reinitialize(std::vector<uint8_t>) = 0;
 

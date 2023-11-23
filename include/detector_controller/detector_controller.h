@@ -13,18 +13,20 @@
 
 #include <sensor_msgs/msg/image.hpp>
 
-#include "detector/detector.h"
 
 #include "marker_detector/msg/detect_results.hpp"
 #include "robot_serial/msg/mode.hpp"
 
+#include "detector/detector.h"
 #include "detector/detect_result.h"
+
+#include "buff_detector/buff_detector.h"
 
 
 class DetectorController : public rclcpp::Node {
 private:
     enum class Mode : uint8_t {
-        AUTO_AIM, BUFF, OUTPOST
+        AUTO_AIM, BUFF, OUTPOST, NUM
     } mode = Mode::AUTO_AIM;
 
     std::vector<Detector::SharedPtr> detectorList;

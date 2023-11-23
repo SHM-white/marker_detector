@@ -12,7 +12,7 @@ marker_detector::msg::DetectResult DetectResult::toRosMsg() {
     return ret;
 }
 
-marker_detector::msg::DetectResults DetectResults::toRosMsg() {
+marker_detector::msg::DetectResults DetectResultsStamped::toRosMsg() {
     marker_detector::msg::DetectResults ret;
     ret.header.stamp = time;
     ret.header.frame_id = "markers";
