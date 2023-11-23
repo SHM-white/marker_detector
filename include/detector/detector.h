@@ -12,7 +12,6 @@
 #include <rclcpp/rclcpp.hpp>
 
 #include "detect_result.h"
-#include "detector_config.h"
 
 #include "marker_detector/msg/detect_results.hpp"
 
@@ -20,7 +19,6 @@ class Detector {
 protected:
     std::string name;
     rclcpp::Clock rosClock;
-    DetectorConfig::SharedPtr detectorConfig;
 
     virtual DetectResults detectImpl(const cv::Mat& image) = 0;
 
@@ -29,7 +27,7 @@ public:
 
     DetectResults detect(const cv::Mat& image);
 
-    virtual void reinitialize(DetectorConfig::SharedPtr config) = 0;
+    virtual void reinitialize(std::vector<uint8_t>) = 0;
 
     using SharedPtr = std::shared_ptr<Detector>;
 

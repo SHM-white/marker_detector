@@ -15,7 +15,6 @@
 struct DetectResult {
     Eigen::Vector3d point;
     Eigen::Quaterniond quat;
-    double roll, pitch, yaw;
     bool selected;
     bool big;
     int id{0};

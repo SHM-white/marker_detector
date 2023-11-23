@@ -25,25 +25,8 @@ void DetectorController::imageCallback(const sensor_msgs::msg::Image::SharedPtr 
 }
 
 void DetectorController::modeCallback(const robot_serial::msg::Mode::SharedPtr modeMsg) {
-    Mode nextMode;
-    switch (modeMsg->mode) {
-        case 0:
-            nextMode = Mode::AUTO_AIM;
-            break;
-        case 1:
-        case 2:
-            nextMode = Mode::BUFF;
-            break;
-        case 3:
-            nextMode = Mode::OUTPOST;
-            break;
-        default:
-            nextMode = Mode::AUTO_AIM;
-
-    }
-    if (nextMode != mode) {
-        mode = nextMode;
-        DetectorConfig::SharedPtr detectorConfig = std::make_shared<DetectorConfig>();
-        detectorList[static_cast<size_t>(nextMode)]->reinitialize(detectorConfig);
+    if (static_cast<Mode>(modeMsg->mode) != mode) {
+        mode = static_cast<Mode>(modeMsg->mode);
+        detectorList[modeMsg->mode]->reinitialize(modeMsg->config);
     }
 }
