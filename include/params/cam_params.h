@@ -19,7 +19,7 @@ class CamParams : public boost::serialization::singleton<CamParams> {
 private:
     rclcpp::Node::SharedPtr node;
 
-    [[maybe_unused]] void infoCB(const sensor_msgs::msg::CameraInfo::SharedPtr msg);
+    void cameraInfoCallback(const sensor_msgs::msg::CameraInfo::SharedPtr msg);
 
 public:
     std::string cameraName;

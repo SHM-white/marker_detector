@@ -12,7 +12,7 @@ DetectorController::DetectorController() : Node("detector_controller"),
     detectResultsPublisher = create_publisher<marker_detector::msg::DetectResults>("/detect_results", 1);
     rawResultPublisher = create_publisher<geometry_msgs::msg::PoseStamped>("/raw_detect_results",1);
     imageSubscription = create_subscription<sensor_msgs::msg::Image>(
-            "/image_raw", //TODO:参数设置
+            "/image_raw",
             1,
             std::bind(&DetectorController::imageCallback, this, std::placeholders::_1),
             subOpt
