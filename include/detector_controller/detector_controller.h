@@ -7,12 +7,11 @@
 
 #include <opencv2/opencv.hpp>
 
-
 #include <rclcpp/rclcpp.hpp>
 #include <cv_bridge/cv_bridge.h>
 
 #include <sensor_msgs/msg/image.hpp>
-
+#include <geometry_msgs/msg/pose_stamped.hpp>
 
 #include "marker_detector/msg/detect_results.hpp"
 #include "robot_serial/msg/mode.hpp"
@@ -22,16 +21,19 @@
 
 #include "buff_detector/buff_detector.h"
 
+#include "params/cam_params.h"
+
 
 class DetectorController : public rclcpp::Node {
 private:
     enum class Mode : uint8_t {
         AUTO_AIM, BUFF, OUTPOST, NUM
-    } mode = Mode::AUTO_AIM;
+    } mode = Mode::BUFF;
 
     std::vector<Detector::SharedPtr> detectorList;
 
     rclcpp::Publisher<marker_detector::msg::DetectResults>::SharedPtr detectResultsPublisher;
+    rclcpp::Publisher<geometry_msgs::msg::PoseStamped>::SharedPtr rawResultPublisher;
 
     rclcpp::Subscription<sensor_msgs::msg::Image>::SharedPtr imageSubscription;
     rclcpp::Subscription<robot_serial::msg::Mode>::SharedPtr modeSubscription;
@@ -45,6 +47,7 @@ private:
 
 public:
     DetectorController();
+    void init();
 };
 
 

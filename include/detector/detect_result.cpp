@@ -4,11 +4,11 @@
 
 #include "detect_result.h"
 
-marker_detector::msg::DetectResult DetectResult::toRosMsg() {
+marker_detector::msg::DetectResult DetectResult::toRosMsg() const {
     marker_detector::msg::DetectResult ret;
-    ret.pose.position.set__x(point[0]).set__y(point[1]).set__z(point[2]);
-    ret.pose.orientation.set__x(quat.x()).set__y(quat.y()).set__z(quat.z()).set__w(quat.w());
-    ret.set__id(id).set__big(big).set__detect_success(detectSuccess).set__selected(selected);
+    ret.pose.position.set__x(point.x).set__y(point.y).set__z(point.z);
+    ret.pose.orientation.set__x(quaternion.x).set__y(quaternion.y).set__z(quaternion.z).set__w(quaternion.w);
+    ret.set__id(id);
     return ret;
 }
 
@@ -17,7 +17,7 @@ marker_detector::msg::DetectResults DetectResultsStamped::toRosMsg() {
     ret.header.stamp = time;
     ret.header.frame_id = "markers";
     for (size_t i = 0; i < results.size(); i++) {
-        ret.detect_results[i] = results[i].toRosMsg();
+        ret.detect_results.push_back(results[i].toRosMsg());
     }
     return ret;
 }

@@ -9,13 +9,13 @@ Detector::Detector(const std::string& _name) {
 }
 
 DetectResultsStamped Detector::detect(const cv::Mat& image) {
-    auto start = rosClock.now();
+    auto start = rclcpp::Clock().now();
 
     auto detectResults = detectImpl(image);
 
-    auto end = rosClock.now();
-    auto duration = start - end;
-    RCLCPP_INFO(rclcpp::get_logger(name), "Detect Latency:%f", duration.seconds());
+    auto end = rclcpp::Clock().now();
+    auto duration = end - start;
+    RCLCPP_INFO(rclcpp::get_logger(name), "Detect Latency:%fs Fps:%fHz", duration.seconds(),1.0/duration.seconds());
 
     DetectResultsStamped detectResultsStamped;
     detectResultsStamped.time = start;

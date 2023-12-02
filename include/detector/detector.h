@@ -18,7 +18,6 @@
 class Detector {
 protected:
     std::string name;
-    rclcpp::Clock rosClock;
 
     virtual DetectResults detectImpl(const cv::Mat& image) = 0;
 

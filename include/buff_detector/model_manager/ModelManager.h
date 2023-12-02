@@ -8,6 +8,7 @@
 #include <opencv2/opencv.hpp>
 #include <openvino/openvino.hpp>
 
+#include "params/buff_params.h"
 
 #include "Common.h"
 #include "Output.h"

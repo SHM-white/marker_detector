@@ -7,7 +7,7 @@
 namespace df {
     ModelManager::ModelManager() {
         model = core.compile_model(
-                "./install/marker_detector/lib/marker_detector/buff_detector/model/dafu.xml",
+                buffParams.getModelPath(),
                 "CPU",
                 {{ov::hint::performance_mode.name(), ov::hint::PerformanceMode::THROUGHPUT}}
         );

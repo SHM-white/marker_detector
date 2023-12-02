@@ -56,7 +56,12 @@ add_executable(${PROJECT_NAME}_node
         include/detector/detector.cpp
         include/detector/detect_result.cpp
         include/buff_detector/buff_detector.cpp
-        include/buff_detector/model_manager/ModelManager.cpp)
+        include/buff_detector/model_manager/ModelManager.cpp
+        include/params/cam_params.cpp
+        include/params/cam_params.h
+        include/params/buff_params.cpp
+        include/params/buff_params.h
+)
 
 ament_target_dependencies(${PROJECT_NAME}_node ${AMENT_DEPENDENCIES})
 rosidl_target_interfaces(${PROJECT_NAME}_node ${PROJECT_NAME} "rosidl_typesupport_cpp")
