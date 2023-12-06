@@ -13,11 +13,13 @@
 
 #include <rclcpp/rclcpp.hpp>
 #include <sensor_msgs/msg/camera_info.hpp>
+#include <camera_interfaces/srv/param_event.hpp>
 
 
 class CamParams : public boost::serialization::singleton<CamParams> {
 private:
     rclcpp::Node::SharedPtr node;
+    rclcpp::Client<camera_interfaces::srv::ParamEvent>::SharedPtr paramEventClient;
 
     void cameraInfoCallback(const sensor_msgs::msg::CameraInfo::SharedPtr msg);
 
@@ -30,6 +32,8 @@ public:
     int CAMERA_OFFSET_Z;
 
     void init(rclcpp::Node::SharedPtr _node);
+
+    void setSize(int height, int width);
 };
 
 

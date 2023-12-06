@@ -22,6 +22,7 @@ find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(robot_serial REQUIRED)
+find_package(camera_interfaces REQUIRED)
 
 set(AMENT_DEPENDENCIES
         rclcpp
@@ -29,6 +30,7 @@ set(AMENT_DEPENDENCIES
         std_msgs
         geometry_msgs
         robot_serial
+        camera_interfaces
 )
 
 find_package(rosidl_default_generators REQUIRED)

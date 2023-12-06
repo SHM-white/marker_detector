@@ -27,3 +27,19 @@ void CamParams::cameraInfoCallback(const sensor_msgs::msg::CameraInfo::SharedPtr
     memcpy(distCoeffs.data, msg->d.data(), msg->d.size() * sizeof(double));
     memcpy(cameraMatrix.data, msg->k.data(), msg->k.size() * sizeof(double));
 }
+
+void CamParams::setSize(int _height, int _width) {
+    camera_interfaces::srv::ParamEvent::Request::SharedPtr heightRequest;
+    camera_interfaces::srv::ParamEvent::Request::SharedPtr widthRequest;
+    heightRequest->param_name = heightRequest->CAMERA_HEIGHT;
+    heightRequest->value = _height;
+    widthRequest->param_name = widthRequest->CAMERA_WIDTH;
+    widthRequest->value = _width;
+    auto heightResponse = paramEventClient->async_send_request(heightRequest);
+    auto widthResponse = paramEventClient->async_send_request(widthRequest);
+    if(heightResponse.get()->camera_height == height && widthResponse.get()->camera_width == width){
+        RCLCPP_INFO(node->get_logger(),"Resizing camera success!");
+    }else{
+        RCLCPP_ERROR(node->get_logger(),"Resizing camera failed!");
+    }
+}

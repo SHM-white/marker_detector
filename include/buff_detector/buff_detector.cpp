@@ -58,7 +58,7 @@ DetectResults BuffDetector::detectImpl(const cv::Mat& image) {
 }
 
 void BuffDetector::reinitialize(std::vector<uint8_t>) {
-
+    camParams.setSize(buffParams.getHeight(),buffParams.getWidth());
 }
 
 
