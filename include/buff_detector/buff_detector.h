@@ -15,7 +15,9 @@
 class BuffDetector : public Detector {
 private:
     df::ModelManager modelManager;
+
     DetectResults detectImpl(const cv::Mat& image) override;
+
     std::vector<cv::Point3f> realPoints = {
             cv::Point3f(-0.160, 0.158, 0),
             cv::Point3f(0.160, 0.158, 0),
@@ -25,6 +27,7 @@ private:
 
 public:
     BuffDetector();
+
     ~BuffDetector() = default;
 
     void reinitialize(std::vector<uint8_t>) override;

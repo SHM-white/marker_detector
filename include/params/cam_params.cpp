@@ -37,9 +37,21 @@ void CamParams::setSize(int _height, int _width) {
     widthRequest->value = _width;
     auto heightResponse = paramEventClient->async_send_request(heightRequest);
     auto widthResponse = paramEventClient->async_send_request(widthRequest);
-    if(heightResponse.get()->camera_height == height && widthResponse.get()->camera_width == width){
-        RCLCPP_INFO(node->get_logger(),"Resizing camera success!");
-    }else{
-        RCLCPP_ERROR(node->get_logger(),"Resizing camera failed!");
+    if (heightResponse.get()->camera_height == height && widthResponse.get()->camera_width == width) {
+        RCLCPP_INFO(node->get_logger(), "Resizing camera success!");
+    } else {
+        RCLCPP_ERROR(node->get_logger(), "Resizing camera failed!");
+    }
+}
+
+void CamParams::setExpTime(int expTime) {
+    camera_interfaces::srv::ParamEvent::Request::SharedPtr expRequest;
+    expRequest->param_name = expRequest->CAMERA_EXP;
+    expRequest->value = expTime;
+    auto expResponse = paramEventClient->async_send_request(expRequest);
+    if (expResponse.get()->camera_exp == expTime) {
+        RCLCPP_INFO(node->get_logger(), "Setting camera exp time success!");
+    } else {
+        RCLCPP_ERROR(node->get_logger(), "Setting camera exp time failed!");
     }
 }

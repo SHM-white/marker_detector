@@ -34,6 +34,8 @@ public:
     void init(rclcpp::Node::SharedPtr _node);
 
     void setSize(int height, int width);
+
+    void setExpTime(int expTime);
 };
 
 

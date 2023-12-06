@@ -21,6 +21,8 @@ public:
     [[nodiscard]] long getHeight() const;
 
     [[nodiscard]] long getWidth() const;
+
+    [[nodiscard]] long getExpTime() const;
 };
 
 
