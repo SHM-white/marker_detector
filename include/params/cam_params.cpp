@@ -6,7 +6,7 @@
 
 void CamParams::init(rclcpp::Node::SharedPtr _node) {
     node = _node;
-    node->create_subscription<sensor_msgs::msg::CameraInfo>("/camera_info", 1,
+    node->create_subscription<sensor_msgs::msg::CameraInfo>("camera_info", 1,
                                                             std::bind(&CamParams::cameraInfoCallback, this,
                                                                       std::placeholders::_1));
     cameraMatrix = cv::Mat(3, 3, CV_64F, 0.0);
