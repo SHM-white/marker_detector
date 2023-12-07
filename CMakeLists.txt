@@ -15,15 +15,9 @@ if (CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     add_compile_options(-Wall -Wextra -Wpedantic)
 endif ()
 
+find_package(ament_cmake REQUIRED)
 
 # find dependencies and libraries
-find_package(ament_cmake REQUIRED)
-find_package(rclcpp REQUIRED)
-find_package(std_msgs REQUIRED)
-find_package(geometry_msgs REQUIRED)
-find_package(robot_serial REQUIRED)
-find_package(camera_interfaces REQUIRED)
-
 set(AMENT_DEPENDENCIES
         rclcpp
         cv_bridge
@@ -32,6 +26,10 @@ set(AMENT_DEPENDENCIES
         robot_serial
         camera_interfaces
 )
+
+foreach (AMENT_DEPENDENCY ${AMENT_DEPENDENCIES})
+    find_package(${AMENT_DEPENDENCY} REQUIRED)
+endforeach ()
 
 find_package(rosidl_default_generators REQUIRED)
 
