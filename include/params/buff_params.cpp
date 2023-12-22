@@ -13,6 +13,9 @@ void BuffParams::init(rclcpp::Node::SharedPtr _node) {
     node->declare_parameter("detector/buff_detector/offset_H");
     node->declare_parameter("detector/buff_detector/offset_W");
     node->declare_parameter("detector/buff_detector/exp_time");
+    node->declare_parameter("detector/buff_detector/analysis_points_num", 150);
+    node->declare_parameter("detector/buff_detector/delay_time", 0.35);
+    node->declare_parameter("detector/is_red");
 }
 
 std::string BuffParams::getModelPath() const {
@@ -29,4 +32,21 @@ long BuffParams::getWidth() const {
 
 long BuffParams::getExpTime() const {
     return node->get_parameter("detector/buff_detector/exp_time").as_int();
+}
+
+long BuffParams::getAnalysisPointsNum() const {
+    return node->get_parameter("detector/buff_detector/analysis_points_num").as_int();
+}
+
+double BuffParams::getDelayTime() const {
+    return node->get_parameter("detector/buff_detector/delay_time").as_double();
+}
+
+cv::Point2f BuffParams::getOffset() const {
+    return {(float) node->get_parameter("detector/buff_detector/offset_W").as_double(),
+            (float) node->get_parameter("detector/buff_detector/offset_H").as_double()};
+}
+
+bool BuffParams::getIsRed() const {
+    return node->get_parameter("detector/is_red").as_bool();
 }

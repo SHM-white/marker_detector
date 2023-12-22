@@ -42,10 +42,12 @@ rosidl_generate_interfaces(${PROJECT_NAME}
 find_package(OpenCV REQUIRED)
 find_package(Eigen3 REQUIRED)
 find_package(cv_bridge REQUIRED)
+find_package(Ceres REQUIRED)
 
 set(LIBRARIES
         openvino
-        ${OpenCV_LIBS}
+        ${OpenCV_LIBRARIES}
+        ${CERES_LIBRARIES}
 )
 
 include_directories(include ${EIGEN3_INCLUDE_DIRS})

@@ -9,6 +9,7 @@
 #include <boost/serialization/singleton.hpp>
 
 #include <rclcpp/rclcpp.hpp>
+#include <opencv2/opencv.hpp>
 
 class BuffParams : public boost::serialization::singleton<BuffParams> {
 private:
@@ -23,6 +24,14 @@ public:
     [[nodiscard]] long getWidth() const;
 
     [[nodiscard]] long getExpTime() const;
+
+    [[nodiscard]] long getAnalysisPointsNum() const;
+
+    [[nodiscard]] double getDelayTime() const;
+
+    [[nodiscard]] cv::Point2f getOffset() const;
+
+    bool getIsRed() const;
 };
 
 
