@@ -10,7 +10,7 @@ BuffDetector::BuffDetector() : Detector("buff_detector") {
 
 void BuffDetector::reinitialize(std::vector<uint8_t> config) {
     camParams.setSize(buffParams.getHeight(), buffParams.getWidth());
-    if (config[0] == 0) {
+    if (config[0] == 1) {
         mode = Mode::DAFU;
     } else {
         mode = Mode::XIAOFU;

@@ -4,17 +4,17 @@
 
 #include "cam_params.h"
 
-void CamParams::init(rclcpp::Node::SharedPtr _node) {
+void CamParams::init(const rclcpp::Node::SharedPtr& _node) {
     node = _node;
     node->create_subscription<sensor_msgs::msg::CameraInfo>("camera_info", 1,
                                                             std::bind(&CamParams::cameraInfoCallback, this,
                                                                       std::placeholders::_1));
     cameraMatrix = cv::Mat(3, 3, CV_64F, 0.0);
-    cameraMatrix.at<float>(0, 0) = 1000;
-    cameraMatrix.at<float>(1, 1) = 1000;
-    cameraMatrix.at<float>(2, 2) = 1;
-    cameraMatrix.at<float>(0, 3) = 350;
-    cameraMatrix.at<float>(1, 3) = 350;
+    cameraMatrix.at<double>(0, 0) = 1000;
+    cameraMatrix.at<double>(1, 1) = 1000;
+    cameraMatrix.at<double>(2, 2) = 1;
+    cameraMatrix.at<double>(0, 3) = 350;
+    cameraMatrix.at<double>(1, 3) = 350;
     distCoeffs = cv::Mat(1, 4, CV_64F, 0.0);
 }
 
@@ -54,4 +54,20 @@ void CamParams::setExpTime(int expTime) {
     } else {
         RCLCPP_ERROR(node->get_logger(), "Setting camera exp time failed!");
     }
+}
+
+double CamParams::getFx() {
+    return cameraMatrix.at<double>(0, 0);
+}
+
+double CamParams::getCx() {
+    return cameraMatrix.at<double>(0, 2);
+}
+
+double CamParams::getFy() {
+    return cameraMatrix.at<double>(1, 1);
+}
+
+double CamParams::getCy() {
+    return cameraMatrix.at<double>(1, 2);
 }

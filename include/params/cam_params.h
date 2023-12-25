@@ -31,11 +31,19 @@ public:
     int CAMERA_OFFSET_X;//摄像头相对云台的位置补偿的单位为毫米
     int CAMERA_OFFSET_Z;
 
-    void init(rclcpp::Node::SharedPtr _node);
+    void init(const rclcpp::Node::SharedPtr& _node);
 
     void setSize(int height, int width);
 
     void setExpTime(int expTime);
+
+    double getFx();
+
+    double getCx();
+
+    double getFy();
+
+    double getCy();
 };
 
 

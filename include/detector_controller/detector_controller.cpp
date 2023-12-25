@@ -10,7 +10,7 @@ DetectorController::DetectorController() : Node("detector_controller"),
     rclcpp::SubscriptionOptions subOpt = rclcpp::SubscriptionOptions();
     subOpt.callback_group = callbackGroup;
     detectResultsPublisher = create_publisher<marker_detector::msg::DetectResults>("/detect_results", 1);
-    rawResultPublisher = create_publisher<geometry_msgs::msg::PoseStamped>("/raw_detect_results",1);
+    rawResultPublisher = create_publisher<geometry_msgs::msg::PoseStamped>("/raw_detect_results", 1);
     imageSubscription = create_subscription<sensor_msgs::msg::Image>(
             "image_raw",
             1,
@@ -30,7 +30,7 @@ void DetectorController::imageCallback(const sensor_msgs::msg::Image::SharedPtr 
     cvImage = cv_bridge::toCvCopy(rosImage, sensor_msgs::image_encodings::BGR8);
     cv::Mat image = cvImage->image;
     auto msg = detectorList[static_cast<unsigned long>(mode)]->detect(image).toRosMsg();
-    if(!msg.detect_results.empty()){
+    if (!msg.detect_results.empty()) {
         geometry_msgs::msg::PoseStamped poseStamped;
         poseStamped.header = msg.header;
         poseStamped.pose = msg.detect_results[0].pose;
@@ -47,7 +47,11 @@ void DetectorController::modeCallback(const robot_serial::msg::Mode::SharedPtr m
 }
 
 void DetectorController::init() {
+    armorParams.init(shared_from_this());
     buffParams.init(shared_from_this());
     camParams.init(shared_from_this());
+    auto autoAim = std::make_shared<ArmorDetector>();
+    detectorList[static_cast<unsigned long>(Mode::AUTO_AIM)] = autoAim;
     detectorList[static_cast<unsigned long>(Mode::BUFF)] = std::make_shared<BuffDetector>();
+    detectorList[static_cast<unsigned long>(Mode::OUTPOST)] = autoAim;
 }

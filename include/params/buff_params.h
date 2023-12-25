@@ -15,7 +15,7 @@ class BuffParams : public boost::serialization::singleton<BuffParams> {
 private:
     rclcpp::Node::SharedPtr node;
 public:
-    void init(rclcpp::Node::SharedPtr _node);
+    void init(const rclcpp::Node::SharedPtr& _node);
 
     [[nodiscard]] std::string getModelPath() const;
 

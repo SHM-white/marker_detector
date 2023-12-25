@@ -15,6 +15,19 @@ if (CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     add_compile_options(-Wall -Wextra -Wpedantic)
 endif ()
 
+# 目前支持的识别方法：MobileNet, BP, Template
+set(RECOGNITION_METHOD "BP")
+# 目前支持的后端引擎：openvino, tensorrt, 也可以设置为auto或none
+set(NN_BACKEND "openvino")
+
+add_subdirectory(include/armor_detector/DigitalRecognition)
+
+include(include/armor_detector/DigitalRecognition/path.cmake)
+include(include/armor_detector/DigitalRecognition/func.cmake)
+
+detectBackend()
+detectMethod()
+
 find_package(ament_cmake REQUIRED)
 
 # find dependencies and libraries
@@ -48,6 +61,7 @@ set(LIBRARIES
         openvino
         ${OpenCV_LIBRARIES}
         ${CERES_LIBRARIES}
+        DigitalRecognitionLib
 )
 
 include_directories(include ${EIGEN3_INCLUDE_DIRS})
@@ -61,6 +75,15 @@ add_executable(${PROJECT_NAME}_node
         include/buff_detector/model_manager/ModelManager.cpp
         include/params/cam_params.cpp
         include/params/buff_params.cpp
+        include/armor_detector/armor_detector.cpp
+        include/armor_detector/armor_detector.h
+        include/armor_detector/Marker.cpp
+        include/armor_detector/MarkSensor.cpp
+        include/armor_detector/RotRect.cpp
+        include/armor_detector/utils.cpp
+        include/armor_detector/history_manager.cpp
+        include/params/armor_params.cpp
+        include/params/armor_params.h
 )
 
 ament_target_dependencies(${PROJECT_NAME}_node ${AMENT_DEPENDENCIES})

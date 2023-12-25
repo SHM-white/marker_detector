@@ -19,9 +19,11 @@
 #include "detector/detector.h"
 #include "detector/detect_result.h"
 
+#include "armor_detector/armor_detector.h"
 #include "buff_detector/buff_detector.h"
 
 #include "params/cam_params.h"
+#include "params/armor_params.h"
 
 
 class DetectorController : public rclcpp::Node {
@@ -47,6 +49,7 @@ private:
 
 public:
     DetectorController();
+
     void init();
 };
 
