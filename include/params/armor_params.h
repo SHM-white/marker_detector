@@ -7,15 +7,23 @@
 
 #include <boost/serialization/singleton.hpp>
 
-#include <opencv2/core/types.hpp>
+#include <opencv2/opencv.hpp>
 
 #include <rclcpp/rclcpp.hpp>
+#include <sensor_msgs/msg/image.hpp>
+#include <cv_bridge/cv_bridge.h>
+#include <std_msgs/msg/header.hpp>
 
 #define RAD2DEG 57.32
 
 class ArmorParams : public boost::serialization::singleton<ArmorParams> {
 private:
     rclcpp::Node::SharedPtr node;
+    rclcpp::Publisher<sensor_msgs::msg::Image>::SharedPtr showImagePublisher;
+    rclcpp::Publisher<sensor_msgs::msg::Image>::SharedPtr showRoiPublisher;
+    rclcpp::Publisher<sensor_msgs::msg::Image>::SharedPtr showNumPublisher;
+    rclcpp::Publisher<sensor_msgs::msg::Image>::SharedPtr showCoordinatePublisher;
+    rclcpp::Publisher<sensor_msgs::msg::Image>::SharedPtr showBinaryPublisher;
 public:
     void init(const rclcpp::Node::SharedPtr& _node);
 
@@ -74,6 +82,20 @@ public:
     long getBinaryMethod();
 
     double getLedDiff();
+
+    void showInfo(const cv::Mat& image, const cv::Mat& roi, const cv::Mat& num, const cv::Mat& coordinate, const cv::Mat& binary);
+
+    bool getIsBig(int i);
+
+    long getOffsetH();
+
+    long getOffsetW();
+
+    long getHeight();
+
+    long getWidth();
+
+    long getExpTime();
 };
 
 #define armorParams ArmorParams::get_mutable_instance()

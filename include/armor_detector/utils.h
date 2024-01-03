@@ -32,7 +32,7 @@ int bgr2binary(const Mat& srcImg, Mat& img_out, int method);
 
 void addImageOffset(std::vector<Point2f>& points, Point2f& offset);
 
-void checkContoursCompleteness(std::vector<std::vector<Point>>& contours, Mat& img);
+void checkContoursCompleteness(std::vector<std::vector<Point>>& contours, const Mat& img);
 
 void markerTypeIdentify(Marker& marker, mMarkerType manualMT);
 

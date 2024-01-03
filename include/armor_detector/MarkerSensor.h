@@ -29,6 +29,9 @@
 
 #define LABEL_NUM 4
 
+#define cameraMatrix camParams.cameraMatrix
+#define distCoeffs camParams.distCoeffs
+
 class MarkerSensor {
 public :
     enum SensorStatus {
@@ -52,28 +55,27 @@ public :
 
     MarkerSensor();
 
-    int ProcessFrameLEDXYZ(const Mat& img, double& z, double& x, double& y, int& target_num, cv::Quatd& qu);
+    int ProcessFrameLEDXYZ(const cv::Mat& img, double& z, double& x, double& y, int& target_num, cv::Quatd& qu);
 
-    int DetectLEDMarker(const Mat& img, Marker& res_marker);
+    int DetectLEDMarker(const cv::Mat& img, Marker& res_marker);
 
-    int TrackLEDMarker(const Mat& img, Marker& res_marker);
+    int TrackLEDMarker(const cv::Mat& img, Marker& res_marker);
 
     int tgt_selector(std::vector<Marker>& markers);
 
-    int GetLEDMarker(cv::Mat& roi_mask, Marker& res_marker, int roi_x, int roi_y);
+    int GetLEDMarker(const cv::Mat& roi_mask, Marker& res_marker, int roi_x, int roi_y);
 
-    int GetLEDStrip(cv::Mat& roi_mask, std::vector<RotRect>& LEDs);
+    int GetLEDStrip(const cv::Mat& roi_mask, std::vector<RotRect>& LEDs);
 
     void NumberDis(Marker& marker);
 
     bool SetGimbalAngularVelocity(float& angular_velocity);
 
-    Mat cameraMatrix;
-    Mat cameraMatrix_inv;
+    //Mat cameraMatrix_inv;
     Mat RT_inv;
     Mat RT;
-    Mat OptcameraMatrix;
-    Mat distCoeffs;
+    //Mat OptcameraMatrix;
+    //Mat distCoeffs;
 
     history_manager _history;
     ModelManager modelManager;

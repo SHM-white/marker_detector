@@ -17,6 +17,7 @@ struct DetectResult {
     cv::Point3d point;
     cv::Quatd quaternion;
     int id{0};
+    bool isBig{false};
     bool detectSuccess{false};
 
     [[nodiscard]] marker_detector::msg::DetectResult toRosMsg() const;

@@ -18,10 +18,10 @@ int otsuThreshold(const Mat& src) {
  * @param mp_  装甲板参数
  */
 MarkerSensor::MarkerSensor() {
-    cameraMatrix = camParams.cameraMatrix;
-    invert(cameraMatrix, cameraMatrix_inv, DECOMP_SVD);
-    distCoeffs = camParams.distCoeffs;
-    OptcameraMatrix = getOptimalNewCameraMatrix(cameraMatrix, distCoeffs, Size(640, 480), 1);
+    //cameraMatrix = camParams.cameraMatrix;
+    //invert(cameraMatrix, cameraMatrix_inv, DECOMP_SVD);
+    //distCoeffs = camParams.distCoeffs;
+    //OptcameraMatrix = getOptimalNewCameraMatrix(cameraMatrix, distCoeffs, Size(640, 480), 1);
 
     //init real armor size, for solvePnP
     big_armor = {Point3d(-0.1135, 0.031, 0), Point3d(0.1135, 0.031, 0), Point3d(0.1135, -0.031, 0),
@@ -190,7 +190,7 @@ int MarkerSensor::tgt_selector(vector<Marker>& markers) {
  * @param LEDs 找到的所有灯条
  * @return int
  */
-int MarkerSensor::GetLEDStrip(cv::Mat& roi_mask, vector<RotRect>& LEDs) {
+int MarkerSensor::GetLEDStrip(const cv::Mat& roi_mask, vector<RotRect>& LEDs) {
     vector<vector<Point>> tmp_countours;
     vector<vector<Point>*> pContours;
     // 3 rad
@@ -243,7 +243,7 @@ int MarkerSensor::GetLEDStrip(cv::Mat& roi_mask, vector<RotRect>& LEDs) {
  * @param res_marker 输出的装甲板
  * @return int 0成功 -1失败
  */
-int MarkerSensor::GetLEDMarker(cv::Mat& roi_mask, Marker& res_marker, int roi_x, int roi_y) {
+int MarkerSensor::GetLEDMarker(const cv::Mat& roi_mask, Marker& res_marker, int roi_x, int roi_y) {
     vector<RotRect> LEDs;
     GetLEDStrip(roi_mask, LEDs);//找灯条
     cout << "led size:" << LEDs.size() << endl;
@@ -308,7 +308,7 @@ int MarkerSensor::GetLEDMarker(cv::Mat& roi_mask, Marker& res_marker, int roi_x,
             //cout<<"chang div kuan:"<<marker_size_ratio <<endl;
             if (marker_size_ratio > armorParams.getMarkerSizeMax() ||
                 marker_size_ratio < armorParams.getMarkerSizeMin()) {
-                //printf("Marker size ratio not satisfied !\n");
+                printf("Marker size ratio not satisfied !\n");
                 continue;
             }
 
@@ -348,39 +348,39 @@ int MarkerSensor::GetLEDMarker(cv::Mat& roi_mask, Marker& res_marker, int roi_x,
     //_history.add_history(markers);
 
 //    //这一段放到了tracker中
-//    for (int i = 0; i < markers.size(); i++) {
-//        markers[i].init_type();
-//        if (markers[i].number == 3) {
-//            if (ap.is3big) {
-//                markers[i].armor_type = Marker::BIG;
-//                markers[i].armor_count = 2;
-//            } else {
-//                markers[i].armor_type = Marker::SMALL;
-//                markers[i].armor_count = 4;
-//            }
-//        } else if (markers[i].number == 4) {
-//            if (ap.is4big) {
-//                markers[i].armor_type = Marker::BIG;
-//                markers[i].armor_count = 2;
-//            } else {
-//                markers[i].armor_type = Marker::SMALL;
-//                markers[i].armor_count = 4;
-//            }
-//        } else if (markers[i].number == 5) {
-//            if (ap.is5big) {
-//                markers[i].armor_type = Marker::BIG;
-//                markers[i].armor_count = 2;
-//            } else {
-//                markers[i].armor_type = Marker::SMALL;
-//                markers[i].armor_count = 4;
-//            }
-//        } else if (markers[i].number == 1 || markers[i].number == 2 || markers[i].number == 6) {
-//            markers[i].armor_count = 4;
-//        } else if (markers[i].number == 7) {
-//            markers[i].armor_count = 3;
-//        }
-//
-//    }
+    for (int i = 0; i < markers.size(); i++) {
+        markers[i].init_type();
+        if (markers[i].number == 3) {
+            if (armorParams.getIsBig(3)) {
+                markers[i].armor_type = Marker::BIG;
+                markers[i].armor_count = 2;
+            } else {
+                markers[i].armor_type = Marker::SMALL;
+                markers[i].armor_count = 4;
+            }
+        } else if (markers[i].number == 4) {
+            if (armorParams.getIsBig(4)) {
+                markers[i].armor_type = Marker::BIG;
+                markers[i].armor_count = 2;
+            } else {
+                markers[i].armor_type = Marker::SMALL;
+                markers[i].armor_count = 4;
+            }
+        } else if (markers[i].number == 5) {
+            if (armorParams.getIsBig(5)) {
+                markers[i].armor_type = Marker::BIG;
+                markers[i].armor_count = 2;
+            } else {
+                markers[i].armor_type = Marker::SMALL;
+                markers[i].armor_count = 4;
+            }
+        } else if (markers[i].number == 1 || markers[i].number == 2 || markers[i].number == 6) {
+            markers[i].armor_count = 4;
+        } else if (markers[i].number == 7) {
+            markers[i].armor_count = 3;
+        }
+
+    }
 
     int res_idx = tgt_selector(markers);
     if (markers[res_idx].number == 0)

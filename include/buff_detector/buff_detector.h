@@ -50,7 +50,7 @@ public:
 
     ~BuffDetector() = default;
 
-    void reinitialize(std::vector<uint8_t>) override;
+    void reinitialize(const std::vector<uint8_t>&) override;
 
     std::optional<cv::Point3f> detectOnce(const cv::Mat& image);
 

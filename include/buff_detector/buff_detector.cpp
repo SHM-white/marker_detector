@@ -8,8 +8,10 @@ BuffDetector::BuffDetector() : Detector("buff_detector") {
 
 }
 
-void BuffDetector::reinitialize(std::vector<uint8_t> config) {
+void BuffDetector::reinitialize(const std::vector<uint8_t>& config) {
+    Detector::reinitialize();
     camParams.setSize(buffParams.getHeight(), buffParams.getWidth());
+    camParams.setExpTime(buffParams.getExpTime());
     if (config[0] == 1) {
         mode = Mode::DAFU;
     } else {

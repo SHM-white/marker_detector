@@ -8,7 +8,7 @@ marker_detector::msg::DetectResult DetectResult::toRosMsg() const {
     marker_detector::msg::DetectResult ret;
     ret.pose.position.set__x(point.x).set__y(point.y).set__z(point.z);
     ret.pose.orientation.set__x(quaternion.x).set__y(quaternion.y).set__z(quaternion.z).set__w(quaternion.w);
-    ret.set__id(id);
+    ret.set__id(id).set__is_big(isBig).set__detect_success(detectSuccess);
     return ret;
 }
 

@@ -9,11 +9,11 @@ DetectorController::DetectorController() : Node("detector_controller"),
     callbackGroup = create_callback_group(rclcpp::CallbackGroupType::Reentrant);
     rclcpp::SubscriptionOptions subOpt = rclcpp::SubscriptionOptions();
     subOpt.callback_group = callbackGroup;
-    detectResultsPublisher = create_publisher<marker_detector::msg::DetectResults>("/detect_results", 1);
+    detectResultsPublisher = create_publisher<marker_detector::msg::DetectResults>("/detect_results", 10);
     rawResultPublisher = create_publisher<geometry_msgs::msg::PoseStamped>("/raw_detect_results", 1);
     imageSubscription = create_subscription<sensor_msgs::msg::Image>(
             "image_raw",
-            1,
+            10,
             std::bind(&DetectorController::imageCallback, this, std::placeholders::_1),
             subOpt
     );
@@ -26,6 +26,11 @@ DetectorController::DetectorController() : Node("detector_controller"),
 }
 
 void DetectorController::imageCallback(const sensor_msgs::msg::Image::SharedPtr rosImage) {
+    if (mode == Mode::NUM) {
+        robot_serial::msg::Mode::SharedPtr modeInfo = std::make_shared<robot_serial::msg::Mode>();
+        modeInfo->mode = 0;
+        modeCallback(modeInfo);
+    }
     cv_bridge::CvImagePtr cvImage;
     cvImage = cv_bridge::toCvCopy(rosImage, sensor_msgs::image_encodings::BGR8);
     cv::Mat image = cvImage->image;

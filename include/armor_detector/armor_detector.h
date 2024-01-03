@@ -7,6 +7,7 @@
 
 #include <detector/detector.h>
 #include "MarkerSensor.h"
+#include "params/armor_params.h"
 
 class ArmorDetector : public Detector {
 private:
@@ -17,7 +18,7 @@ private:
 public:
     ArmorDetector();
 
-    void reinitialize(std::vector<uint8_t>) override;
+    void reinitialize(const std::vector<uint8_t>&) override;
 };
 
 

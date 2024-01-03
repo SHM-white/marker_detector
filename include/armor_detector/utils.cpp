@@ -222,7 +222,7 @@ void addImageOffset(vector<Point2f>& points, Point2f& offset) {
     }
 }
 
-void checkContoursCompleteness(vector<vector<Point>>& contours, Mat& img) {
+void checkContoursCompleteness(vector<vector<Point>>& contours, const Mat& img) {
     for (auto contour = contours.begin(); contour < contours.end(); contour++) {
         Rect bbox = boundingRect(*contour);
         if (bbox.br().x == img.rows || bbox.br().y == img.cols || bbox.tl().x == 0 || bbox.tl().y == 0) {
@@ -303,8 +303,8 @@ Point2i camera2pixel(const Point3d& p3d) {
     Point2i p2i;
     float x = p3d.x * camParams.getFx() / p3d.z + camParams.getCx();
     float y = p3d.y * camParams.getFy() / p3d.z + camParams.getCy();
-    float r = sqrt((x - 640 + camParams.offsetW) * (x - 640 + camParams.offsetW) +
-                   (y - 512 + camParams.offsetH) * (y - 512 + camParams.offsetH));
+    float r = sqrt((x - 640 + armorParams.getOffsetW()) * (x - 640 + armorParams.getOffsetW()) +
+                   (y - 512 + armorParams.getOffsetH()) * (y - 512 + armorParams.getOffsetH()));
     p2i.x = int(
             x * (1 + camParams.distCoeffs.at<double>(1) * r * r + camParams.distCoeffs.at<double>(2) * r * r * r * r));
     p2i.y = int(

@@ -20,6 +20,7 @@ class CamParams : public boost::serialization::singleton<CamParams> {
 private:
     rclcpp::Node::SharedPtr node;
     rclcpp::Client<camera_interfaces::srv::ParamEvent>::SharedPtr paramEventClient;
+    rclcpp::Subscription<sensor_msgs::msg::CameraInfo>::SharedPtr cameraInfoSubscription;
 
     void cameraInfoCallback(const sensor_msgs::msg::CameraInfo::SharedPtr msg);
 

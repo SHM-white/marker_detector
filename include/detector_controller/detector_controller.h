@@ -30,7 +30,7 @@ class DetectorController : public rclcpp::Node {
 private:
     enum class Mode : uint8_t {
         AUTO_AIM, BUFF, OUTPOST, NUM
-    } mode = Mode::BUFF;
+    } mode = Mode::NUM;
 
     std::vector<Detector::SharedPtr> detectorList;
 
