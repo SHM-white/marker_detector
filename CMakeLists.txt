@@ -28,22 +28,9 @@ include(include/armor_detector/DigitalRecognition/func.cmake)
 detectBackend()
 detectMethod()
 
-find_package(ament_cmake REQUIRED)
+find_package(ament_cmake_auto REQUIRED)
 
-# find dependencies and libraries
-set(AMENT_DEPENDENCIES
-        rclcpp
-        angles
-        cv_bridge
-        std_msgs
-        geometry_msgs
-        robot_serial
-        camera_interfaces
-)
-
-foreach (AMENT_DEPENDENCY ${AMENT_DEPENDENCIES})
-    find_package(${AMENT_DEPENDENCY} REQUIRED)
-endforeach ()
+ament_auto_find_build_dependencies()
 
 find_package(rosidl_default_generators REQUIRED)
 
@@ -53,21 +40,15 @@ rosidl_generate_interfaces(${PROJECT_NAME}
         DEPENDENCIES std_msgs geometry_msgs
 )
 
-find_package(OpenCV REQUIRED)
-find_package(Eigen3 REQUIRED)
-find_package(cv_bridge REQUIRED)
-find_package(Ceres REQUIRED)
-
 set(LIBRARIES
         openvino
-        ${OpenCV_LIBRARIES}
         ${CERES_LIBRARIES}
         DigitalRecognitionLib
 )
 
 include_directories(include ${EIGEN3_INCLUDE_DIRS})
 
-add_executable(${PROJECT_NAME}_node
+ament_auto_add_executable(${PROJECT_NAME}_node
         src/marker_detector_node.cpp
         include/detector_controller/detector_controller.cpp
         include/detector/detector.cpp
@@ -77,25 +58,19 @@ add_executable(${PROJECT_NAME}_node
         include/params/cam_params.cpp
         include/params/buff_params.cpp
         include/armor_detector/armor_detector.cpp
-        include/armor_detector/armor_detector.h
         include/armor_detector/Marker.cpp
         include/armor_detector/MarkSensor.cpp
         include/armor_detector/RotRect.cpp
         include/armor_detector/utils.cpp
         include/armor_detector/history_manager.cpp
         include/params/armor_params.cpp
-        include/params/armor_params.h
 )
 
-ament_target_dependencies(${PROJECT_NAME}_node ${AMENT_DEPENDENCIES})
 rosidl_target_interfaces(${PROJECT_NAME}_node ${PROJECT_NAME} "rosidl_typesupport_cpp")
 target_link_libraries(${PROJECT_NAME}_node ${LIBRARIES})
 target_include_directories(${PROJECT_NAME}_node PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         $<INSTALL_INTERFACE:include>)
-
-install(TARGETS ${PROJECT_NAME}_node
-        DESTINATION lib/${PROJECT_NAME})
 
 install(DIRECTORY include/buff_detector/model
         DESTINATION lib/${PROJECT_NAME}/buff_detector/)
@@ -111,4 +86,5 @@ if (BUILD_TESTING)
     ament_lint_auto_find_test_dependencies()
 endif ()
 
-ament_package()
+ament_auto_package()
+
