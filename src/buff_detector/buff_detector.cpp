@@ -2,7 +2,7 @@
 // Created by mijiao on 23-11-23.
 //
 
-#include "buff_detector.h"
+#include "buff_detector/buff_detector.h"
 
 BuffDetector::BuffDetector() : Detector("buff_detector") {
 

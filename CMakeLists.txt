@@ -50,20 +50,20 @@ include_directories(include ${EIGEN3_INCLUDE_DIRS})
 
 ament_auto_add_executable(${PROJECT_NAME}_node
         src/marker_detector_node.cpp
-        include/detector_controller/detector_controller.cpp
-        include/detector/detector.cpp
-        include/detector/detect_result.cpp
-        include/buff_detector/buff_detector.cpp
+        src/detector_controller/detector_controller.cpp
+        src/detector/detector.cpp
+        src/detector/detect_result.cpp
+        src/buff_detector/buff_detector.cpp
         include/buff_detector/model_manager/ModelManager.cpp
-        include/params/cam_params.cpp
-        include/params/buff_params.cpp
-        include/armor_detector/armor_detector.cpp
-        include/armor_detector/Marker.cpp
-        include/armor_detector/MarkSensor.cpp
-        include/armor_detector/RotRect.cpp
-        include/armor_detector/utils.cpp
-        include/armor_detector/history_manager.cpp
-        include/params/armor_params.cpp
+        src/params/cam_params.cpp
+        src/params/buff_params.cpp
+        src/armor_detector/armor_detector.cpp
+        src/armor_detector/Marker.cpp
+        src/armor_detector/MarkSensor.cpp
+        src/armor_detector/RotRect.cpp
+        src/armor_detector/utils.cpp
+        src/armor_detector/history_manager.cpp
+        src/params/armor_params.cpp
 )
 
 rosidl_target_interfaces(${PROJECT_NAME}_node ${PROJECT_NAME} "rosidl_typesupport_cpp")

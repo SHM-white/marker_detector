@@ -2,7 +2,7 @@
 // Created by mijiao on 23-11-20.
 //
 
-#include "detector.h"
+#include "detector/detector.h"
 
 Detector::Detector(const std::string& _name) {
     name = _name;

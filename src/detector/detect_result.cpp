@@ -2,7 +2,7 @@
 // Created by mijiao on 23-11-20.
 //
 
-#include "detect_result.h"
+#include "detector/detect_result.h"
 
 marker_detector::msg::DetectResult DetectResult::toRosMsg() const {
     marker_detector::msg::DetectResult ret;

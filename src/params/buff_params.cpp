@@ -2,7 +2,7 @@
 // Created by mijiao on 23-11-25.
 //
 
-#include "buff_params.h"
+#include "params/buff_params.h"
 
 void BuffParams::init(const rclcpp::Node::SharedPtr& _node) {
     node = _node;

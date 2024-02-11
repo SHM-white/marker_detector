@@ -2,7 +2,7 @@
 // Created by mijiao on 23-12-25.
 //
 
-#include "armor_params.h"
+#include "params/armor_params.h"
 
 void ArmorParams::init(const rclcpp::Node::SharedPtr& _node) {
     node = _node;

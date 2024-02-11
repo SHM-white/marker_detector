@@ -2,7 +2,7 @@
 // Created by mijiao on 23-11-19.
 //
 
-#include "detector_controller.h"
+#include "detector_controller/detector_controller.h"
 
 DetectorController::DetectorController() : Node("detector_controller"),
                                            detectorList(static_cast<unsigned long>(Mode::NUM)) {

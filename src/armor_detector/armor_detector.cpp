@@ -2,7 +2,7 @@
 // Created by mijiao on 23-12-25.
 //
 
-#include "armor_detector.h"
+#include "armor_detector/armor_detector.h"
 
 ArmorDetector::ArmorDetector() : Detector("armor") {
 
