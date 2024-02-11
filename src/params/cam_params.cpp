@@ -4,7 +4,7 @@
 
 #include "params/cam_params.h"
 
-void CamParams::init(const rclcpp::Node::SharedPtr& _node) {
+void CamParams::init(const rclcpp::Node::SharedPtr &_node) {
     node = _node;
     cameraInfoSubscription = node->create_subscription<sensor_msgs::msg::CameraInfo>("camera_info", 1,
                                                                                      std::bind(
@@ -36,7 +36,10 @@ void CamParams::cameraInfoCallback(const sensor_msgs::msg::CameraInfo::ConstShar
 }
 
 void CamParams::setSize(int _height, int _width) {
-    paramEventClient->wait_for_service();
+    using namespace std::chrono_literals;
+    while (!paramEventClient->wait_for_service(1s)) {
+        RCLCPP_WARN(node->get_logger(), "Camera service offline! Waiting...");
+    }
     camera_interfaces::srv::ParamEvent::Request::SharedPtr heightRequest = std::make_shared<camera_interfaces::srv::ParamEvent::Request>();
     camera_interfaces::srv::ParamEvent::Request::SharedPtr widthRequest = std::make_shared<camera_interfaces::srv::ParamEvent::Request>();
     heightRequest->param_name = heightRequest->CAMERA_HEIGHT;
