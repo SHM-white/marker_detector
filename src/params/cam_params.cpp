@@ -21,7 +21,7 @@ void CamParams::init(const rclcpp::Node::SharedPtr& _node) {
     distCoeffs = cv::Mat(1, 4, CV_64F, 0.0);
 }
 
-void CamParams::cameraInfoCallback(const sensor_msgs::msg::CameraInfo::SharedPtr msg) {
+void CamParams::cameraInfoCallback(const sensor_msgs::msg::CameraInfo::ConstSharedPtr &msg) {
     cv::Mat tempCameraMatrix(3, 3, CV_64FC1);
     height = (int) msg->height;
     width = (int) msg->width;

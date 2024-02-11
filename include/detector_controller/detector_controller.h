@@ -42,9 +42,9 @@ private:
 
     rclcpp::CallbackGroup::SharedPtr callbackGroup;
 
-    void imageCallback(const sensor_msgs::msg::Image::SharedPtr rosImage);
+    void imageCallback(const sensor_msgs::msg::Image::ConstSharedPtr& rosImage);
 
-    void modeCallback(const robot_serial::msg::Mode::SharedPtr modeMsg);
+    void modeCallback(const robot_serial::msg::Mode::ConstSharedPtr& modeMsg);
 
 
 public:

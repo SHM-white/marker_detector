@@ -25,10 +25,10 @@ DetectorController::DetectorController() : Node("detector_controller"),
 
 }
 
-void DetectorController::imageCallback(const sensor_msgs::msg::Image::SharedPtr rosImage) {
+void DetectorController::imageCallback(const sensor_msgs::msg::Image::ConstSharedPtr& rosImage) {
     if (mode == Mode::NUM) {
         robot_serial::msg::Mode::SharedPtr modeInfo = std::make_shared<robot_serial::msg::Mode>();
-        modeInfo->mode = 0;
+        modeInfo->mode = static_cast<unsigned char>(Mode::AUTO_AIM);
         modeCallback(modeInfo);
     }
     cv_bridge::CvImagePtr cvImage;
@@ -44,7 +44,7 @@ void DetectorController::imageCallback(const sensor_msgs::msg::Image::SharedPtr 
     detectResultsPublisher->publish(msg);
 }
 
-void DetectorController::modeCallback(const robot_serial::msg::Mode::SharedPtr modeMsg) {
+void DetectorController::modeCallback(const robot_serial::msg::Mode::ConstSharedPtr& modeMsg) {
     if (static_cast<Mode>(modeMsg->mode) != mode) {
         mode = static_cast<Mode>(modeMsg->mode);
         detectorList[modeMsg->mode]->reinitialize(modeMsg->config);

@@ -22,7 +22,7 @@ private:
     rclcpp::Client<camera_interfaces::srv::ParamEvent>::SharedPtr paramEventClient;
     rclcpp::Subscription<sensor_msgs::msg::CameraInfo>::SharedPtr cameraInfoSubscription;
 
-    void cameraInfoCallback(const sensor_msgs::msg::CameraInfo::SharedPtr msg);
+    void cameraInfoCallback(const sensor_msgs::msg::CameraInfo::ConstSharedPtr &msg);
 
 public:
     std::string cameraName;
