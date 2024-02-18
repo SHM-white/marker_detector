@@ -9,13 +9,14 @@ DetectorController::DetectorController() : Node("detector_controller"),
     callbackGroup = create_callback_group(rclcpp::CallbackGroupType::Reentrant);
     rclcpp::SubscriptionOptions subOpt = rclcpp::SubscriptionOptions();
     subOpt.callback_group = callbackGroup;
+    rmw_qos_profile_t qos_profile = rmw_qos_profile_sensor_data;
+    auto qos = rclcpp::QoS(rclcpp::QoSInitialization(qos_profile.history, 10), qos_profile).reliability(RMW_QOS_POLICY_RELIABILITY_BEST_EFFORT);
     detectResultsPublisher = create_publisher<marker_detector::msg::DetectResults>("/detect_results", 10);
     rawResultPublisher = create_publisher<geometry_msgs::msg::PoseStamped>("/raw_detect_results", 1);
     imageSubscription = create_subscription<sensor_msgs::msg::Image>(
             "image_raw",
-            10,
-            std::bind(&DetectorController::imageCallback, this, std::placeholders::_1),
-            subOpt
+            qos,
+            std::bind(&DetectorController::imageCallback, this, std::placeholders::_1)
     );
     modeSubscription = create_subscription<robot_serial::msg::Mode>(
             "/robot/mode",

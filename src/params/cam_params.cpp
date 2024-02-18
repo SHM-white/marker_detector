@@ -13,11 +13,11 @@ void CamParams::init(const rclcpp::Node::SharedPtr &_node) {
                                                                                              std::placeholders::_1));
     paramEventClient = node->create_client<camera_interfaces::srv::ParamEvent>("param_event");
     cameraMatrix = cv::Mat(3, 3, CV_64F, 0.0);
-    cameraMatrix.at<double>(0, 0) = 1000;
-    cameraMatrix.at<double>(1, 1) = 1000;
+    cameraMatrix.at<double>(0, 0) = 1134;
+    cameraMatrix.at<double>(1, 1) = 1134;
     cameraMatrix.at<double>(2, 2) = 1;
-    cameraMatrix.at<double>(0, 3) = 350;
-    cameraMatrix.at<double>(1, 3) = 350;
+    cameraMatrix.at<double>(0, 2) = 720;
+    cameraMatrix.at<double>(1, 2) = 200;
     distCoeffs = cv::Mat(1, 4, CV_64F, 0.0);
 }
 
