@@ -27,6 +27,7 @@ DetectorController::DetectorController() : Node("detector_controller"),
 }
 
 void DetectorController::imageCallback(const sensor_msgs::msg::Image::ConstSharedPtr& rosImage) {
+    system("clear");
     if (mode == Mode::NUM) {
         robot_serial::msg::Mode::SharedPtr modeInfo = std::make_shared<robot_serial::msg::Mode>();
         modeInfo->mode = static_cast<unsigned char>(Mode::AUTO_AIM);
