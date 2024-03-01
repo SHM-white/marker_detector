@@ -27,5 +27,5 @@ DetectResults ArmorDetector::detectImpl(const cv::Mat& image) {
 
 void ArmorDetector::reinitialize(const std::vector<uint8_t>&) {
     Detector::reinitialize();
-    //camParams.setSize(armorParams.getHeight(), armorParams.getWidth());
+    camParams.setSize(armorParams.getHeight(), armorParams.getWidth());
 }
