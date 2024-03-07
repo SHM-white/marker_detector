@@ -9,7 +9,7 @@ void ArmorParams::init(const rclcpp::Node::SharedPtr& _node) {
     node->declare_parameter("show", true);
     node->declare_parameter("if_get_angle", true);
 
-    node->declare_parameter("is_red", true);
+    node->declare_parameter("is_red", false);
 
     node->declare_parameter("armor_detector.ch1_min_r", 0.0);
     node->declare_parameter("armor_detector.ch1_max_r", 255.0);
@@ -63,7 +63,7 @@ void ArmorParams::init(const rclcpp::Node::SharedPtr& _node) {
     node->declare_parameter("armor_detector.offset_h", 256);
     node->declare_parameter("armor_detector.offset_w", 0);
 
-    node->declare_parameter("armor_detector.height", 400);
+    node->declare_parameter("armor_detector.height", 500);
     node->declare_parameter("armor_detector.width", 1440);
 
     node->declare_parameter("armor_detector.exp_time", 3200);

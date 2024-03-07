@@ -80,12 +80,16 @@ void CamParams::setExpTime(int expTime) {
     camera_interfaces::srv::ParamEvent::Request::SharedPtr expRequest = std::make_shared<camera_interfaces::srv::ParamEvent::Request>();
     expRequest->param_name = expRequest->CAMERA_EXP;
     expRequest->value = expTime;
-    auto expResponse = paramEventClient->async_send_request(expRequest);
-    if (expResponse.get()->camera_exp == expTime) {
-        RCLCPP_INFO(node->get_logger(), "Setting camera exp time success!");
-    } else {
-        RCLCPP_ERROR(node->get_logger(), "Setting camera exp time failed!");
-    }
+    paramEventClient->async_send_request(
+            expRequest,
+            [this, &expTime](
+                    const rclcpp::Client<camera_interfaces::srv::ParamEvent>::SharedFuture expResponse) {
+                if (expResponse.get()->camera_exp == expTime) {
+                    RCLCPP_INFO(node->get_logger(), "Setting camera exp time success!");
+                } else {
+                    RCLCPP_ERROR(node->get_logger(), "Setting camera exp time failed!");
+                }
+            });
 }
 
 double CamParams::getFx() {
