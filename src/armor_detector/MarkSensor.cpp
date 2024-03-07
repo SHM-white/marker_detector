@@ -33,6 +33,8 @@ MarkerSensor::MarkerSensor() {
     offset = Point2f(camParams.offsetW, camParams.offsetH);
     if_roi_predict = false;
     modelManager.init();
+    rvec = cv::Mat::zeros(1,3,CV_64FC1);
+    tvec = cv::Mat::zeros(1,3,CV_64FC1);
 }
 
 /**
@@ -624,9 +626,9 @@ int MarkerSensor::ProcessFrameLEDXYZ(const Mat& img, double& z, double& x, doubl
         addImageOffset(img_points, offset);
 
         if (marker.armor_type == Marker::BIG)
-            solvePnP(big_armor, img_points, cameraMatrix, distCoeffs, rvec, tvec, false, SOLVEPNP_ITERATIVE);
+            solvePnP(big_armor, img_points, cameraMatrix, distCoeffs, rvec, tvec, true, SOLVEPNP_ITERATIVE);
         else
-            solvePnP(small_armor, img_points, cameraMatrix, distCoeffs, rvec, tvec, false, SOLVEPNP_ITERATIVE);
+            solvePnP(small_armor, img_points, cameraMatrix, distCoeffs, rvec, tvec, true, SOLVEPNP_ITERATIVE);
         armor_x = tvec.at<double>(0, 0);
         armor_y = tvec.at<double>(0, 1);
         armor_z = tvec.at<double>(0, 2);

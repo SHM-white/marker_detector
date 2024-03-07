@@ -38,9 +38,9 @@ void DetectorController::imageCallback(const sensor_msgs::msg::Image::ConstShare
     cv::Mat image = cvImage->image;
     auto msg = detectorList[static_cast<unsigned long>(mode)]->detect(image).toRosMsg();
     if (!msg.detect_results.empty()) {
-        geometry_msgs::msg::PoseStamped poseStamped;
+        geometry_msgs::msg::PoseStamped po+++++++++++++++++++++seStamped;
         poseStamped.header = msg.header;
-        poseStamped.pose = msg.detect_results[0].pose;
+        poseStamped.pose = msg.detect_results[4].pose;
         rawResultPublisher->publish(poseStamped);
     }
     detectResultsPublisher->publish(msg);
