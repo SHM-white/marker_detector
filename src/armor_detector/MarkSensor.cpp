@@ -5,7 +5,7 @@
 using namespace cv;
 using namespace std;
 
-int otsuThreshold(const Mat& src) {
+int otsuThreshold(const Mat &src) {
     cv::Mat img = src.clone();
     return cv::threshold(img, img, 0, 0, cv::THRESH_OTSU);
 }
@@ -33,8 +33,8 @@ MarkerSensor::MarkerSensor() {
     offset = Point2f(camParams.offsetW, camParams.offsetH);
     if_roi_predict = false;
     modelManager.init();
-    rvec = cv::Mat::zeros(1,3,CV_64FC1);
-    tvec = cv::Mat::zeros(1,3,CV_64FC1);
+    rvec = cv::Mat::zeros(1, 3, CV_64FC1);
+    tvec = cv::Mat::zeros(1, 3, CV_64FC1);
 }
 
 /**
@@ -43,7 +43,7 @@ MarkerSensor::MarkerSensor() {
  * @param angular_velocity 云台角速度
  * @return 转动方向，向上为True
  */
-bool MarkerSensor::SetGimbalAngularVelocity(float& angular_velocity) {
+bool MarkerSensor::SetGimbalAngularVelocity(float &angular_velocity) {
     if (angular_velocity < 0) {
         gimbal_angular_velocity.store(false);
     } else {
@@ -58,7 +58,7 @@ bool MarkerSensor::SetGimbalAngularVelocity(float& angular_velocity) {
  * 识别装甲版上的数字，结果存放在Marker对象的no成员中
  * @param marker 待识别的装甲版
  */
-void MarkerSensor::NumberDis(Marker& marker) {
+void MarkerSensor::NumberDis(Marker &marker) {
     Mat img;
     Point2f res_pts[4];
     const int heightCrop = 0, widthCrop = 6;
@@ -115,7 +115,7 @@ void MarkerSensor::NumberDis(Marker& marker) {
  * @param markers 识别到的所有装甲
  * @return int 要击打的装甲索引
  */
-int MarkerSensor::tgt_selector(vector<Marker>& markers) {
+int MarkerSensor::tgt_selector(vector<Marker> &markers) {
     int res_idx = -1;
     float minDist = 9999;
     for (int i = 0; i < markers.size(); i++) {
@@ -192,14 +192,14 @@ int MarkerSensor::tgt_selector(vector<Marker>& markers) {
  * @param LEDs 找到的所有灯条
  * @return int
  */
-int MarkerSensor::GetLEDStrip(const cv::Mat& roi_mask, vector<RotRect>& LEDs) {
+int MarkerSensor::GetLEDStrip(const cv::Mat &roi_mask, vector<RotRect> &LEDs) {
     vector<vector<Point>> tmp_countours;
-    vector<vector<Point>*> pContours;
+    vector<vector<Point> *> pContours;
     // 3 rad
     findContours(roi_mask, tmp_countours, RETR_EXTERNAL, CHAIN_APPROX_NONE);//找轮廓
     checkContoursCompleteness(tmp_countours, roi_mask);
 
-    for (auto& contour: tmp_countours) {
+    for (auto &contour: tmp_countours) {
         int cont_sz = static_cast<int>(contour.size());//强制类型转换
         if (cont_sz >= armorParams.getContoursLength1Min() && cont_sz <= armorParams.getContoursLength1Max())
             pContours.push_back(&contour);
@@ -208,7 +208,7 @@ int MarkerSensor::GetLEDStrip(const cv::Mat& roi_mask, vector<RotRect>& LEDs) {
     }
 
     //PCA
-    for (auto& pContour: pContours) {
+    for (auto &pContour: pContours) {
         RotRect LED;
         if (PCALEDStrip(*pContour, LED) == STATUS_SUCCESS) {
             // check length
@@ -245,7 +245,7 @@ int MarkerSensor::GetLEDStrip(const cv::Mat& roi_mask, vector<RotRect>& LEDs) {
  * @param res_marker 输出的装甲板
  * @return int 0成功 -1失败
  */
-int MarkerSensor::GetLEDMarker(const cv::Mat& roi_mask, Marker& res_marker, int roi_x, int roi_y) {
+int MarkerSensor::GetLEDMarker(const cv::Mat &roi_mask, Marker &res_marker, int roi_x, int roi_y) {
     vector<RotRect> LEDs;
     GetLEDStrip(roi_mask, LEDs);//找灯条
     cout << "led size:" << LEDs.size() << endl;
@@ -343,7 +343,7 @@ int MarkerSensor::GetLEDMarker(const cv::Mat& roi_mask, Marker& res_marker, int 
     }
 
     // decide which marker to shoot
-    for (auto& marker_: markers) {
+    for (auto &marker_: markers) {
         // TODO: 目前为方便调试暂时不启动装甲板类型识别（默认为小）
 //        markerTypeIdentify(marker_, cp, mp, manualMT);
     }
@@ -406,7 +406,7 @@ int MarkerSensor::GetLEDMarker(const cv::Mat& roi_mask, Marker& res_marker, int 
  * @param res_marker 要击打的装甲板
  * @return int 0成功 
  */
-int MarkerSensor::DetectLEDMarker(const Mat& img, Marker& res_marker) {
+int MarkerSensor::DetectLEDMarker(const Mat &img, Marker &res_marker) {
 
     //bgr2binary
     bgr2binary(img, led_mask, armorParams.getBinaryMethod());
@@ -428,9 +428,9 @@ int MarkerSensor::DetectLEDMarker(const Mat& img, Marker& res_marker) {
  * @param res_marker 要击打的装甲板
  * @return int 0成功
  */
-int MarkerSensor::TrackLEDMarker(const Mat& img, Marker& res_marker) {
+int MarkerSensor::TrackLEDMarker(const Mat &img, Marker &res_marker) {
     //获取 ROI
-    Rect& box = res_marker.bbox;
+    Rect &box = res_marker.bbox;
     float left, right, top, bot;
     if (if_roi_predict) {
         left = predict_roi_cx - 0.5 * (status + 1) * box.width;
@@ -511,7 +511,7 @@ int MarkerSensor::TrackLEDMarker(const Mat& img, Marker& res_marker) {
  * @param qu 目标四元数
  * @return int 0失败
  */
-int MarkerSensor::ProcessFrameLEDXYZ(const Mat& img, double& z, double& x, double& y, int& target_num, cv::Quatd& qu) {
+int MarkerSensor::ProcessFrameLEDXYZ(const Mat &img, double &z, double &x, double &y, int &target_num, cv::Quatd &qu) {
     if (armorParams.getIfShow())
         img.copyTo(img_show);
 
@@ -625,10 +625,17 @@ int MarkerSensor::ProcessFrameLEDXYZ(const Mat& img, double& z, double& x, doubl
         img_points = {marker.kpts[2], marker.kpts[3], marker.kpts[1], marker.kpts[0]};
         addImageOffset(img_points, offset);
 
-        if (marker.armor_type == Marker::BIG)
+        if (marker.armor_type == Marker::BIG) {
             solvePnP(big_armor, img_points, cameraMatrix, distCoeffs, rvec, tvec, true, SOLVEPNP_ITERATIVE);
-        else
+            if (std::isnan(tvec.at<double>(0, 0))) {
+                solvePnP(big_armor, img_points, cameraMatrix, distCoeffs, rvec, tvec, false, SOLVEPNP_ITERATIVE);
+            }
+        } else {
             solvePnP(small_armor, img_points, cameraMatrix, distCoeffs, rvec, tvec, true, SOLVEPNP_ITERATIVE);
+            if (std::isnan(tvec.at<double>(0, 0))) {
+                solvePnP(big_armor, img_points, cameraMatrix, distCoeffs, rvec, tvec, false, SOLVEPNP_ITERATIVE);
+            }
+        }
         armor_x = tvec.at<double>(0, 0);
         armor_y = tvec.at<double>(0, 1);
         armor_z = tvec.at<double>(0, 2);
