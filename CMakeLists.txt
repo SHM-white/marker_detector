@@ -73,7 +73,7 @@ target_include_directories(${PROJECT_NAME}_node PUBLIC
         $<INSTALL_INTERFACE:include>)
 
 install(DIRECTORY include/buff_detector/model
-        DESTINATION lib/${PROJECT_NAME}/buff_detector/)
+        DESTINATION share/${PROJECT_NAME}/buff_detector)
 
 if (BUILD_TESTING)
     find_package(ament_lint_auto REQUIRED)
