@@ -7,7 +7,7 @@
 void BuffParams::init(const rclcpp::Node::SharedPtr& _node) {
     node = _node;
     node->declare_parameter("buff_detector.model_path",
-                            "./install/marker_detector/lib/marker_detector/buff_detector/model/dafu.xml");
+                            "./install/marker_detector/share/marker_detector/buff_detector/model/dafu.xml");
     node->declare_parameter("buff_detector.height", 700);
     node->declare_parameter("buff_detector.width", 700);
     node->declare_parameter("buff_detector.offset_H", 162);
