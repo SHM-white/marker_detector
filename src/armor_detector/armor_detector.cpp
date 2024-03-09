@@ -15,8 +15,8 @@ DetectResults ArmorDetector::detectImpl(const cv::Mat& image) {
     bool result = markerSensor.ProcessFrameLEDXYZ(image, z, x, y, target_num, quat);
     armorParams.showInfo(markerSensor.img_show, markerSensor.ROI_bgr, markerSensor.NUM_bgr, markerSensor.coordinate,
                          markerSensor.led_mask);
-    DetectResults ret(8);
-    for (int i = 0; i < 8; i++) {
+    DetectResults ret(9);
+    for (int i = 0; i < 9; i++) {
         ret[i].id = i;
     }
     if (target_num != 0) {
