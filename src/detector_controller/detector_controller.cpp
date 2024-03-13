@@ -10,7 +10,8 @@ DetectorController::DetectorController() : Node("detector_controller"),
     rclcpp::SubscriptionOptions subOpt = rclcpp::SubscriptionOptions();
     subOpt.callback_group = callbackGroup;
     rmw_qos_profile_t qos_profile = rmw_qos_profile_sensor_data;
-    auto qos = rclcpp::QoS(rclcpp::QoSInitialization(qos_profile.history, 10), qos_profile).reliability(RMW_QOS_POLICY_RELIABILITY_BEST_EFFORT);
+    auto qos = rclcpp::QoS(rclcpp::QoSInitialization(qos_profile.history, 10), qos_profile).reliability(
+            RMW_QOS_POLICY_RELIABILITY_BEST_EFFORT);
     detectResultsPublisher = create_publisher<marker_detector::msg::DetectResults>("/detect_results", 10);
     rawResultPublisher = create_publisher<geometry_msgs::msg::PoseStamped>("/raw_detect_results", 1);
     imageSubscription = create_subscription<sensor_msgs::msg::Image>(
@@ -26,7 +27,7 @@ DetectorController::DetectorController() : Node("detector_controller"),
 
 }
 
-void DetectorController::imageCallback(const sensor_msgs::msg::Image::ConstSharedPtr& rosImage) {
+void DetectorController::imageCallback(const sensor_msgs::msg::Image::ConstSharedPtr &rosImage) {
     system("clear");
     if (mode == Mode::NUM) {
         robot_serial::msg::Mode::SharedPtr modeInfo = std::make_shared<robot_serial::msg::Mode>();
@@ -46,7 +47,8 @@ void DetectorController::imageCallback(const sensor_msgs::msg::Image::ConstShare
     detectResultsPublisher->publish(msg);
 }
 
-void DetectorController::modeCallback(const robot_serial::msg::Mode::ConstSharedPtr& modeMsg) {
+void DetectorController::modeCallback(const robot_serial::msg::Mode::ConstSharedPtr &modeMsg) {
+    if (modeMsg->mode >= static_cast<uint8_t>(Mode::NUM)) { return; }
     if (static_cast<Mode>(modeMsg->mode) != mode) {
         mode = static_cast<Mode>(modeMsg->mode);
         detectorList[modeMsg->mode]->reinitialize(modeMsg->config);
