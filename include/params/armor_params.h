@@ -11,7 +11,7 @@
 
 #include <rclcpp/rclcpp.hpp>
 #include <sensor_msgs/msg/image.hpp>
-#include <cv_bridge/cv_bridge.h>
+#include <cv_bridge/cv_bridge.hpp>
 #include <std_msgs/msg/header.hpp>
 
 #define RAD2DEG 57.32
